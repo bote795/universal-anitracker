@@ -1,0 +1,17 @@
+{
+    "compileOnSave": true,
+    "compilerOptions": {
+        "outDir": "./dist/",
+        "esModuleInterop": true,
+        "noImplicitAny": true,
+        "module": "es6",
+        "target": "es5",
+        "allowJs": true,
+        "lib": [
+            "es5",
+            "es6",
+            "es2015.promise",
+            "dom"
+        ]
+    }
+}
