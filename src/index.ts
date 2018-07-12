@@ -45,7 +45,7 @@ const main = async () => {
 
 
         data = await provider.addAnime({
-          animeId: get(item, 'anime.id',13209),
+          anime_id: get(item, 'anime.id',13209),
             progress: 32,
             status: 'current'
         });

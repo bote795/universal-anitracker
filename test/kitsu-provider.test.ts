@@ -16,6 +16,7 @@ const opts = {
 const USERNAME = process.env.EMAIL || "";
 const PASSWORD = process.env.PASSWORD || "";
 const TOKEN = process.env.TOKEN || "";
+
 describe('kitsu provider', () => {
   let provider: KitsuProvider;
 
@@ -35,22 +36,57 @@ describe('kitsu provider', () => {
 
   test('should get user list', async () => {
     const list = await provider.getUserList();
-    expect(list.length).toEqual(10);
+    expect(list.length).toBeGreaterThanOrEqual(11);
   });
 
   test('should update anime list entry', async () => {
     const blackCloverId: number = 13209;
     const episode: number = 32;
-    const params = { id: blackCloverId, progress: episode };
-    const data = await provider.updateAnime(params);
+    let list = await provider.getUserList();
+    let item = list.find((entry: any) => entry.anime.id === "13209");
+    if(isEmpty(item)){
+      //add anime
+      const blackCloverId: number = 13209;
+      const episode: number = 32;
+      const status: string = 'current';
+      const { data } = await provider.addAnime({
+        anime_id: blackCloverId,
+        progress: episode,
+        status
+      });
+      const { attributes } = data;
+      expect(attributes.progress).toBe(episode);
+      expect(attributes.status).toBe(status);
+      list = await provider.getUserList();
+      item = list.find((entry: any) => entry.anime.id === "13209");
+    }
+
+    const params = { id: item.id, progress: episode };
+    const {data} = await provider.updateAnime(params);
     expect(data.attributes.progress).toEqual(episode);
   });
 
   test('should remove user list entry', async () => {
     //get the entry number since changes every time
-    const list = await provider.getUserList();
-    const item = list.find((entry: any) => entry.anime.id === '13209');
-    if (isEmpty(item)) throw "error didn't find record needed for test"
+    var list = await provider.getUserList();
+    var item = list.find((entry: any) => entry.anime.id === '13209');
+    if(isEmpty(item)){
+      //add anime
+      const blackCloverId: number = 13209;
+      const episode: number = 32;
+      const status: string = 'current';
+      const {data} = await provider.addAnime({
+        anime_id: blackCloverId,
+        progress: episode,
+        status
+      });
+      const { attributes } = data;
+      expect(attributes.progress).toBe(episode);
+      expect(attributes.status).toBe(status);
+
+      list = await provider.getUserList();
+      item = list.find((entry: any) => entry.anime.id === "13209");
+    }
     //delete entry
     const removeAnime = await provider.removeAnime(item.id);
     expect(removeAnime).toBeDefined();
@@ -60,23 +96,23 @@ describe('kitsu provider', () => {
     //get the entry number since changes every time
     const list = await provider.getUserList();
     const item = list.find((entry: any) => entry.anime.id === '13209');
-    if(isEmpty(item)) throw "error didn't find record needed for test"
-    //delete entry
-    const removeAnime = await provider.removeAnime(item.id);
-    expect(removeAnime).toBeDefined();
+    if(!isEmpty(item)) {
+      //delete entry
+      const removeAnime = await provider.removeAnime(item.id);
+      expect(removeAnime).toBeDefined();
+    }
     //add anime
     const blackCloverId: number = 13209;
     const episode: number = 32;
     const status: string = 'current';
-    const data = await provider.addAnime({
-      animeId: get(item, "anime.id", blackCloverId),
+    const {data} = await provider.addAnime({
+      anime_id: get(item, "anime.id", blackCloverId),
       progress: episode,
       status
     });
-    const {attributes, anime} = data;
+    const {attributes} = data;
     expect(attributes.progress).toBe(episode);
     expect(attributes.status).toBe(status);
-    expect(anime.id).toBe(blackCloverId);
   });
 
 });

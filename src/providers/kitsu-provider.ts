@@ -113,6 +113,7 @@ class KitsuProvider implements BasicProvider {
         throw err;
       });
   }
+  // TODO: normalize responses
   addAnime(variables: Partial<inputAnime>): Promise<any> {
     const params: kitsuAddEntryPayload = this.inputNormalizeAddAnime(variables);
     return this.provider.post("libraryEntries", { ...params });
@@ -160,12 +161,12 @@ class KitsuProvider implements BasicProvider {
     };
   }
   inputNormalizeAddAnime(input: Partial<inputAnime>): kitsuAddEntryPayload {
-    const { status, progress, animeId }: Partial<inputAnime> = input;
+    const { status, progress, anime_id }: Partial<inputAnime> = input;
     return {
       status: KitsuProvider.Status(status),
       progress,
       anime: {
-        id: animeId.toString(),
+        id: anime_id.toString(),
         type: "anime"
       },
       user: {
@@ -175,13 +176,8 @@ class KitsuProvider implements BasicProvider {
     };
   }
   inputNormalizeAnime(input: Partial<inputAnime>): Partial<inputAnime> {
-    const { id, status, progress, animeId }: Partial<inputAnime> = input;
-    const newType: Partial<inputAnime> = {
-      anime_id: animeId,
-      id,
-      status: KitsuProvider.Status(status),
-      progress
-    };
+    const { id, status, progress, anime_id }: Partial<inputAnime> = input;
+    const newType: Partial<inputAnime> = { anime_id, id, status: KitsuProvider.Status(status), progress };
     return pickBy(newType, identity);
   }
 }
