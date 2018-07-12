@@ -11,8 +11,7 @@ const opts = {
 const USERNAME = process.env.EMAIL || "";
 const PASSWORD = process.env.PASSWORD || "";
 const TOKEN    = process.env.TOKEN || "";
-var message: string = "Hello World";
-console.log(message);
+
 const provider: KitsuProvider = new KitsuProvider(TOKEN, opts);
 const main = async () => {
     try {
