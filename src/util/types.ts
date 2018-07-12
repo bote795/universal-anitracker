@@ -23,7 +23,6 @@ export interface inputAnime {
   id: number | undefined;
   status: string | undefined;
   progress: number | undefined;
-  animeId: number | undefined;
   anime_id: number | undefined;
 }
 
