@@ -1,4 +1,5 @@
 import KitsuProvider from "./providers/kitsu-provider";
+import AnilistProvider from "./providers/anilist-provider";
 import { isEmpty, get } from "lodash";
 import { listEntry } from "./util/types";
 

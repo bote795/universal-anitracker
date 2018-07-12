@@ -28,6 +28,7 @@
         "@types/jest": "^23.1.5",
         "@types/lodash": "^4.14.110",
         "@types/node": "^10.5.2",
+        "aniwrapper": "^1.0.1",
         "client-oauth2": "^4.2.1",
         "dotenv": "^6.0.0",
         "jest": "^23.4.0",
