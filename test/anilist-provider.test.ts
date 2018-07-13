@@ -15,7 +15,7 @@ function log(...theArgs: any[]) {
 }
 //TODO add verification that the types are full of what it needs to be
 describe('Anilist provider', () => {
-  let provider: KitsuProvider;
+  let provider: AnilistProvider;
 
   beforeAll(() => {
     provider = new AnilistProvider(TOKEN);
