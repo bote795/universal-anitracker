@@ -68,7 +68,7 @@ class KitsuProvider implements BasicProvider {
 
     return "test";
   }
-  searchAnime(name: string) {
+  searchAnime(name: string): Promise<Array<Anime>> {
     return this.provider
       .get("anime", {
         filter: { text: name },
@@ -84,7 +84,7 @@ class KitsuProvider implements BasicProvider {
       });
   }
 
-  getUserList(): Promise<any> {
+  getUserList(): Promise<Array<listEntry>> {
     return this.provider
       .self({ fields: { users: "id" } })
       .then(({ id }: { id: Number }) => {
@@ -177,7 +177,12 @@ class KitsuProvider implements BasicProvider {
   }
   inputNormalizeAnime(input: Partial<inputAnime>): Partial<inputAnime> {
     const { id, status, progress, anime_id }: Partial<inputAnime> = input;
-    const newType: Partial<inputAnime> = { anime_id, id, status: KitsuProvider.Status(status), progress };
+    const newType: Partial<inputAnime> = {
+      anime_id,
+      id,
+      status: KitsuProvider.Status(status),
+      progress
+    };
     return pickBy(newType, identity);
   }
 }

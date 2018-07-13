@@ -1,12 +1,12 @@
 export interface listEntry {
-  id: Number;
-  progress: Number;
+  id: number;
+  progress: number;
   anime: Anime;
 }
 
 export interface Anime {
-  id: Number;
-  TotalEpisodes: Number;
+  id: number;
+  TotalEpisodes: number;
   image: CoverImage;
   title: title;
 }

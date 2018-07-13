@@ -1,12 +1,13 @@
 import { BasicProvider } from "../util/provider_interface";
-import { get, pickBy, identity } from "lodash";
+import { isEmpty, get, pickBy, identity } from "lodash";
 import {
   Anime,
   listEntry,
   inputAnime,
   AnilistAddEntryPayload,
   AnilistUpdateEntryPayload,
-  AnilistMedia
+  AnilistMedia,
+  anilisEntrysResponse
 } from "../util/types";
 const Anilist = require('aniwrapper/node');
 class AnilistProvider implements BasicProvider {
@@ -14,8 +15,7 @@ class AnilistProvider implements BasicProvider {
   constructor(accessToken: string = "") {
     this.provider = new Anilist(accessToken);
   }
-  getUserList() {
-    MediaListCollection.lists[0].entries;
+  getUserList(): Promise<Array<listEntry>> {
     return this.provider
       .getUserList()
       .then(({ MediaListCollection }: { MediaListCollection: any }) =>
@@ -27,41 +27,83 @@ class AnilistProvider implements BasicProvider {
         );
       });
   }
-  searchAnime(name: string) {
-    return this.provider.searchAnime(name);
+  searchAnime(name: string): Promise<Array<Anime>> {
+    return this.provider
+      .searchAnime(name)
+      .then(({ AnimeSearch }: { AnimeSearch: any }) => {
+        const data = get(AnimeSearch, "media");
+        if (isEmpty(data)) {
+          throw "Media entrys not found in search response";
+        }
+        return data.map((entry: any) => this.outputNormalizeAnime(entry));
+      });
   }
-  updateAnime(vars: Partial<inputAnime>) {
+  updateAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
     const params: Partial<AnilistUpdateEntryPayload> = this.inputNormalizeAnime(
       vars
     );
-    return this.provider.updateAnime(params);
+    return this.provider
+      .updateAnime(params)
+      .then(({ SaveMediaListEntry }: { SaveMediaListEntry: any }) => {
+        const { id, mediaId, status, progress } = SaveMediaListEntry;
+        return {
+          id,
+          status,
+          progress,
+          anime: {
+            id: mediaId
+          }
+        };
+      });
   }
-  removeAnime(id: Number) {
+  removeAnime(id: Number): Promise<any> {
     return this.provider.removeAnime(id);
   }
-  addAnime(vars: Partial<inputAnime>) {
+  addAnime(vars: Partial<inputAnime>): Promise<any> {
     const params = this.inputNormalizeAddAnime(vars);
-    return this.provider.addAnime(params);
+    return this.provider
+      .addAnime(params)
+      .then(({ SaveMediaListEntry }: { SaveMediaListEntry: any }) => {
+        const { id, mediaId, status, progress } = SaveMediaListEntry;
+        return {
+          id,
+          status,
+          progress,
+          anime: {
+            id: mediaId
+          }
+        };
+      });
   }
 
   //helpers
   // ouput normalizers
   outputNormalizeListEntry(entry: anilisEntrysResponse): listEntry {
-    const { id, progress, mediaId, media }:
-    { id: Number, progress: Number, mediaId :Number, media:AnilistMedia }
-      = entry;
+    const {
+      id,
+      progress,
+      mediaId,
+      media
+    }: {
+      id: number;
+      progress: number;
+      mediaId: number;
+      media: AnilistMedia;
+    } = entry;
     return {
       id,
       progress,
-      anime: {
-        id: mediaId,
-        TotalEpisodes: media.episodes,
-        image: media.coverImage,
-        title: media.title
-      }
-    }
+      anime: this.outputNormalizeAnime(media)
+    };
   }
-  outputNormalizeAnime(anime: any): Anime {}
+  outputNormalizeAnime(anime: AnilistMedia): Anime {
+    return {
+      id: anime.id,
+      TotalEpisodes: anime.episodes,
+      image: anime.coverImage,
+      title: anime.title
+    };
+  }
 
   //input normalizers
   inputNormalizeAddAnime(input: Partial<inputAnime>): AnilistAddEntryPayload {
