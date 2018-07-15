@@ -81,19 +81,19 @@
 /******/
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = "./src/index.ts");
+/******/ 	return __webpack_require__(__webpack_require__.s = "./lib/index.ts");
 /******/ })
 /************************************************************************/
 /******/ ({
 
-/***/ "./src/index.ts":
+/***/ "./lib/index.ts":
 /*!**********************!*\
-  !*** ./src/index.ts ***!
+  !*** ./lib/index.ts ***!
   \**********************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-eval("\n\n//# sourceURL=webpack:///./src/index.ts?");
+eval("\n\n//# sourceURL=webpack:///./lib/index.ts?");
 
 /***/ })
 

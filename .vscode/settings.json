@@ -1,0 +1,6 @@
+{
+  "editor.formatOnSave": true,
+  "javascript.format.enable": false,
+  "formattingToggle.activateFor": ["formatOnPaste", "formatOnSave", "formatOnType"]
+
+}

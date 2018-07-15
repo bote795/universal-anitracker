@@ -1,5 +1,5 @@
-import { BasicProvider } from "../util/provider_interface";
-import { isEmpty, get, pickBy, identity } from "lodash";
+import { BasicProvider } from '../util/provider_interface';
+import { isEmpty, get, pickBy, identity } from 'lodash';
 import {
   Anime,
   listEntry,
@@ -8,34 +8,34 @@ import {
   AnilistUpdateEntryPayload,
   AnilistMedia,
   anilisEntrysResponse
-} from "../util/types";
+} from '../util/types';
 const Anilist = require('aniwrapper/node');
 class AnilistProvider implements BasicProvider {
-  provider: any;
+  public provider: any;
 
-  static Status(key: string): string | undefined {
+  public static Status(key: string): string | undefined {
     if (!key) return key;
     switch (key.toLowerCase()) {
-      case "current":
-      case "planning":
-      case "completed":
-      case "dropped":
-      case "paused":
-      case "repeating":
-        return key.toUpperCase();
-      default:
-        throw `Incorrect Status passed: ${key}`;
+    case 'current':
+    case 'planning':
+    case 'completed':
+    case 'dropped':
+    case 'paused':
+    case 'repeating':
+      return key.toUpperCase();
+    default:
+      throw new Error(`Incorrect Status passed: ${key}`);
     }
   }
 
-  constructor(accessToken: string = "") {
+  constructor(accessToken: string = '') {
     this.provider = new Anilist(accessToken);
   }
-  getUserList(): Promise<Array<listEntry>> {
+  public getUserList(): Promise<listEntry[]> {
     return this.provider
       .getUserList()
       .then(({ MediaListCollection }: { MediaListCollection: any }) =>
-        get(MediaListCollection, "lists[0].entries")
+        get(MediaListCollection, 'lists[0].entries')
       )
       .then((list: any) => {
         return list.map((entry: anilisEntrysResponse) =>
@@ -43,18 +43,18 @@ class AnilistProvider implements BasicProvider {
         );
       });
   }
-  searchAnime(name: string): Promise<Array<Anime>> {
+  public searchAnime(name: string): Promise<Anime[]> {
     return this.provider
       .searchAnime(name)
       .then(({ AnimeSearch }: { AnimeSearch: any }) => {
-        const data = get(AnimeSearch, "media");
+        const data = get(AnimeSearch, 'media');
         if (isEmpty(data)) {
-          throw "Media entrys not found in search response";
+          throw new Error('Media entrys not found in search response');
         }
         return data.map((entry: any) => this.outputNormalizeAnime(entry));
       });
   }
-  updateAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
+  public updateAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
     const params: Partial<AnilistUpdateEntryPayload> = this.inputNormalizeAnime(
       vars
     );
@@ -72,10 +72,10 @@ class AnilistProvider implements BasicProvider {
         };
       });
   }
-  removeAnime(id: Number): Promise<any> {
+  public removeAnime(id: number): Promise<any> {
     return this.provider.removeAnime(id);
   }
-  addAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
+  public addAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
     const params = this.inputNormalizeAddAnime(vars);
     return this.provider
       .addAnime(params)
@@ -92,9 +92,9 @@ class AnilistProvider implements BasicProvider {
       });
   }
 
-  //helpers
+  // helpers
   // ouput normalizers
-  outputNormalizeListEntry(entry: anilisEntrysResponse): listEntry {
+  public outputNormalizeListEntry(entry: anilisEntrysResponse): listEntry {
     const {
       id,
       progress,
@@ -112,7 +112,7 @@ class AnilistProvider implements BasicProvider {
       anime: this.outputNormalizeAnime(media)
     };
   }
-  outputNormalizeAnime(anime: AnilistMedia): Anime {
+  public outputNormalizeAnime(anime: AnilistMedia): Anime {
     return {
       id: anime.id,
       TotalEpisodes: anime.episodes,
@@ -121,8 +121,8 @@ class AnilistProvider implements BasicProvider {
     };
   }
 
-  //input normalizers
-  inputNormalizeAddAnime(input: Partial<inputAnime>): AnilistAddEntryPayload {
+  // input normalizers
+  public inputNormalizeAddAnime(input: Partial<inputAnime>): AnilistAddEntryPayload {
     const { status, progress, anime_id }: Partial<inputAnime> = input;
     return {
       mediaId: anime_id,
@@ -130,7 +130,7 @@ class AnilistProvider implements BasicProvider {
       progress
     };
   }
-  inputNormalizeAnime(
+  public inputNormalizeAnime(
     input: Partial<inputAnime>
   ): Partial<AnilistUpdateEntryPayload> {
     const { id, status, progress, anime_id }: Partial<inputAnime> = input;
