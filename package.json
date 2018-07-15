@@ -28,7 +28,7 @@
         "user"
     ],
     "author": "",
-    "license": "ISC",
+    "license": "MIT",
     "dependencies": {
         "aniwrapper": "^1.0.1",
         "client-oauth2": "^4.2.1",
