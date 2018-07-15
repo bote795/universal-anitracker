@@ -6,7 +6,7 @@ import {
 import AnilistProvider from "./../src/providers/anilist-provider";
 const dotenv = require("dotenv"); // eslint-disable-line
 dotenv.config();
-const debug:boolean = true;
+const debug:boolean = false;
 const TOKEN = process.env.ANILIST_TOKEN || "";
 function log(...theArgs: any[]) {
   if (debug) {
