@@ -4,7 +4,7 @@ import {
     get
 } from "lodash";
 import {
-    listEntry
+    inputAnime
 } from "src/util/types";
 import KitsuProvider from "./../src/providers/kitsu-provider";
 const dotenv = require("dotenv"); // eslint-disable-line
@@ -43,7 +43,7 @@ describe('kitsu provider', () => {
     const blackCloverId: number = 13209;
     const episode: number = 32;
     let list = await provider.getUserList();
-    let item = list.find((entry: any) => entry.anime.id === "13209");
+    let item:any = list.find((entry: any) => entry.anime.id === "13209");
     if(isEmpty(item)){
       //add anime
       const blackCloverId: number = 13209;
@@ -58,10 +58,10 @@ describe('kitsu provider', () => {
       expect(attributes.progress).toBe(episode);
       expect(attributes.status).toBe(status);
       list = await provider.getUserList();
-      item = list.find((entry: any) => entry.anime.id === "13209");
+      item= list.find((entry: any) => entry.anime.id === "13209");
     }
 
-    const params = { id: item.id, progress: episode };
+    const params: Partial<inputAnime> = { id: item.id, progress: episode };
     const {data} = await provider.updateAnime(params);
     expect(data.attributes.progress).toEqual(episode);
   });
@@ -69,7 +69,7 @@ describe('kitsu provider', () => {
   test('should remove user list entry', async () => {
     //get the entry number since changes every time
     var list = await provider.getUserList();
-    var item = list.find((entry: any) => entry.anime.id === '13209');
+    var item:any = list.find((entry: any) => entry.anime.id === '13209');
     if(isEmpty(item)){
       //add anime
       const blackCloverId: number = 13209;
@@ -95,7 +95,7 @@ describe('kitsu provider', () => {
   test('should add anime to list entry', async () => {
     //get the entry number since changes every time
     const list = await provider.getUserList();
-    const item = list.find((entry: any) => entry.anime.id === '13209');
+    const item:any = list.find((entry: any) => entry.anime.id === '13209');
     if(!isEmpty(item)) {
       //delete entry
       const removeAnime = await provider.removeAnime(item.id);
