@@ -12,6 +12,22 @@ import {
 const Anilist = require('aniwrapper/node');
 class AnilistProvider implements BasicProvider {
   provider: any;
+
+  static Status(key: string): string | undefined {
+    if (!key) return key;
+    switch (key.toLowerCase()) {
+      case "current":
+      case "planning":
+      case "completed":
+      case "dropped":
+      case "paused":
+      case "repeating":
+        return key.toUpperCase();
+      default:
+        throw `Incorrect Status passed: ${key}`;
+    }
+  }
+
   constructor(accessToken: string = "") {
     this.provider = new Anilist(accessToken);
   }
@@ -59,7 +75,7 @@ class AnilistProvider implements BasicProvider {
   removeAnime(id: Number): Promise<any> {
     return this.provider.removeAnime(id);
   }
-  addAnime(vars: Partial<inputAnime>): Promise<any> {
+  addAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
     const params = this.inputNormalizeAddAnime(vars);
     return this.provider
       .addAnime(params)
@@ -110,7 +126,7 @@ class AnilistProvider implements BasicProvider {
     const { status, progress, anime_id }: Partial<inputAnime> = input;
     return {
       mediaId: anime_id,
-      status,
+      status: AnilistProvider.Status(status),
       progress
     };
   }
@@ -121,7 +137,7 @@ class AnilistProvider implements BasicProvider {
     const newType: Partial<AnilistUpdateEntryPayload> = {
       mediaId: anime_id,
       id,
-      status: status,
+      status: AnilistProvider.Status(status),
       progress
     };
     return pickBy(newType, identity);
