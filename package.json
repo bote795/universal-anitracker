@@ -32,11 +32,11 @@
     "dependencies": {
         "aniwrapper": "^1.0.1",
         "client-oauth2": "^4.2.1",
-        "kitsu": "^5.2.0"
+        "kitsu": "^5.2.0",
+        "@types/lodash": "^4.14.110"
     },
     "devDependencies": {
         "@types/jest": "^23.1.5",
-        "@types/lodash": "^4.14.110",
         "@types/node": "^10.5.2",
         "dotenv": "^6.0.0",
         "jest": "^23.4.0",
