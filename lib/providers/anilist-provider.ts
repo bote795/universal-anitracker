@@ -9,7 +9,11 @@ import {
   AnilistMedia,
   AnilisEntrysResponse,
 } from '../util/types';
+
+/* tslint:disable:no-var-requires */
 const Anilist = require('aniwrapper/node');
+/* tslint:enable:no-var-requires */
+
 class AnilistProvider implements BasicProvider {
   public provider: any;
 

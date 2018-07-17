@@ -1,12 +1,18 @@
 import { ListEntry, Anime, InputAnime } from 'lib/util/types';
 import AnilistProvider from './../lib/providers/anilist-provider';
-const dotenv = require('dotenv'); // eslint-disable-line
+
+/* tslint:disable:no-var-requires */
+const dotenv = require('dotenv');
+/* tslint:enable:no-var-requires */
+
 dotenv.config();
 const debug: boolean = false;
 const TOKEN = process.env.ANILIST_TOKEN || '';
 function log(...theArgs: any[]) {
   if (debug) {
-    console.log(theArgs); // eslint-disable-line
+    /* tslint:disable:no-console */
+    console.log(theArgs);
+    /* tslint:enable:no-console */
   }
 }
 // TODO add verification that the types are full of what it needs to be
@@ -30,7 +36,7 @@ describe('Anilist provider', () => {
     const updateAnimeInput: Partial<InputAnime> = {
       id: media.id,
       anime_id: media.anime.id,
-      progress: updateEp
+      progress: updateEp,
     };
     const updatedEntry: Partial<ListEntry> = await provider.updateAnime(
       updateAnimeInput
@@ -47,7 +53,7 @@ describe('Anilist provider', () => {
     const addEntry: Partial<InputAnime> = {
       anime_id: 1535,
       status: 'CURRENT',
-      progress: 1
+      progress: 1,
     };
     const val: any = await provider.addAnime(addEntry);
     log(val);

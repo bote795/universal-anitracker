@@ -6,9 +6,10 @@ import {
   InputAnime,
   KitsuAddEntryPayload,
 } from '../util/types';
-
+/* tslint:disable:no-var-requires */
 const Kitsu = require('kitsu/node');
 const OAuth2 = require('client-oauth2');
+/* tslint:enable:no-var-requires */
 
 class KitsuProvider implements BasicProvider {
   public accessToken: string = '';
@@ -58,7 +59,10 @@ class KitsuProvider implements BasicProvider {
         return accessToken;
       })
       .catch((err: any) => {
+        /* tslint:disable:no-console */
         console.error('There was an error getting a token %O', err);
+        /* tslint:enable:no-console */
+
         throw err;
       });
   }

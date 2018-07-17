@@ -1,7 +1,11 @@
 import { isEmpty, get } from 'lodash';
 import { InputAnime } from 'lib/util/types';
 import KitsuProvider from './../lib/providers/kitsu-provider';
-const dotenv = require('dotenv'); // eslint-disable-line
+
+/* tslint:disable:no-var-requires */
+const dotenv = require('dotenv');
+/* tslint:enable:no-var-requires */
+
 dotenv.config();
 const opts = {
   clientId: process.env.CLIENT_ID || '',
