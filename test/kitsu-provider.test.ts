@@ -54,8 +54,8 @@ describe('kitsu provider', () => {
     }
 
     const params: Partial<InputAnime> = { id: item.id, progress: episode };
-    const { data } = await provider.updateAnime(params);
-    expect(data.attributes.progress).toEqual(episode);
+    const resp = await provider.updateAnime(params);
+    expect(resp.data.attributes.progress).toEqual(episode);
   });
 
   test('should remove user list entry', async () => {
