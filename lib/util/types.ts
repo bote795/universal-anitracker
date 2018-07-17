@@ -1,4 +1,4 @@
-export interface listEntry {
+export interface ListEntry {
   id: number;
   progress: number;
   anime: Anime;
@@ -8,32 +8,32 @@ export interface Anime {
   id: number;
   TotalEpisodes: number;
   image: CoverImage;
-  title: title;
+  title: Title;
 }
-export interface CoverImage{
+export interface CoverImage {
   medium: string;
 }
 
-export interface title {
+export interface Title {
   romaji: string;
   english: string;
 }
 
-export interface inputAnime {
+export interface InputAnime {
   id: number | undefined;
   status: string | undefined;
   progress: number | undefined;
   anime_id: number | undefined;
 }
 
-export interface kitsuAddEntryPayload {
+export interface KitsuAddEntryPayload {
   status: string | undefined;
   progress: number | undefined;
-  anime: relationshipType;
-  user: relationshipType;
+  anime: RelationshipType;
+  user: RelationshipType;
 }
 
-export interface anilisEntrysResponse {
+export interface AnilisEntrysResponse {
   id: number;
   mediaId: number;
   progress: number;
@@ -44,12 +44,12 @@ export interface AnilistMedia {
   id: number;
   episodes: number;
   coverImage: CoverImage;
-  title: title;
+  title: Title;
 }
 export interface AnilistAddEntryPayload {
-  mediaId: number ;
+  mediaId: number;
   status: string;
-  progress: number ;
+  progress: number;
 }
 
 export interface AnilistUpdateEntryPayload {
@@ -59,8 +59,7 @@ export interface AnilistUpdateEntryPayload {
   progress: number | undefined;
 }
 
-
-export interface relationshipType {
+export interface RelationshipType {
   id: string;
   type: string;
 }

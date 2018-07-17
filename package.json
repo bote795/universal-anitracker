@@ -1,49 +1,55 @@
 {
-    "name": "universal-anitracker",
-    "version": "1.0.0",
-    "description": "",
-    "main": "node/index.js",
-    "scripts": {
-        "dev": "webpack --watch",
-        "test": "jest"
+  "name": "universal-anitracker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "node/index.js",
+  "scripts": {
+    "dev": "webpack --watch",
+    "test": "jest",
+    "lint": "tslint '{lib,test}/**/*.ts'",
+    "format": "npm run lint -- --fix && prettier --write ./{lib,test}/**/*.ts"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.tsx?$": "ts-jest"
     },
-    "jest": {
-        "transform": {
-            "^.+\\.tsx?$": "ts-jest"
-        },
-        "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
-        "moduleFileExtensions": [
-            "ts",
-            "tsx",
-            "js",
-            "jsx",
-            "json",
-            "node"
-        ]
-    },
-    "keywords": [
-        "anilist",
-        "kitsu",
-        "anime",
-        "user"
-    ],
-    "author": "",
-    "license": "MIT",
-    "dependencies": {
-        "aniwrapper": "^1.0.1",
-        "client-oauth2": "^4.2.1",
-        "kitsu": "^5.2.0",
-        "@types/lodash": "^4.14.110"
-    },
-    "devDependencies": {
-        "@types/jest": "^23.1.5",
-        "@types/node": "^10.5.2",
-        "dotenv": "^6.0.0",
-        "jest": "^23.4.0",
-        "ts-jest": "^23.0.0",
-        "ts-loader": "^4.4.2",
-        "typescript": "^2.9.2",
-        "webpack": "^4.15.1",
-        "webpack-cli": "^3.0.8"
-    }
+    "testRegex": "(/__tests__/.*|(\\.|/)(test|spec))\\.(jsx?|tsx?)$",
+    "moduleFileExtensions": [
+      "ts",
+      "tsx",
+      "js",
+      "jsx",
+      "json",
+      "node"
+    ]
+  },
+  "keywords": [
+    "anilist",
+    "kitsu",
+    "anime",
+    "user"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@types/lodash": "^4.14.110",
+    "aniwrapper": "^1.0.1",
+    "client-oauth2": "^4.2.1",
+    "kitsu": "^5.2.0"
+  },
+  "devDependencies": {
+    "@types/jest": "^23.1.5",
+    "@types/node": "^10.5.2",
+    "dotenv": "^6.0.0",
+    "jest": "^23.4.0",
+    "prettier": "^1.13.7",
+    "ts-jest": "^23.0.0",
+    "ts-loader": "^4.4.2",
+    "tslint": "^5.10.0",
+    "tslint-config-prettier": "^1.13.0",
+    "tslint-config-standard": "^7.1.0",
+    "typescript": "^2.9.2",
+    "webpack": "^4.15.1",
+    "webpack-cli": "^3.0.8"
+  }
 }
