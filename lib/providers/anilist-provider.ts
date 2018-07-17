@@ -2,12 +2,12 @@ import { BasicProvider } from '../util/provider_interface';
 import { isEmpty, get, pickBy, identity } from 'lodash';
 import {
   Anime,
-  listEntry,
-  inputAnime,
+  ListEntry,
+  InputAnime,
   AnilistAddEntryPayload,
   AnilistUpdateEntryPayload,
   AnilistMedia,
-  anilisEntrysResponse
+  AnilisEntrysResponse
 } from '../util/types';
 const Anilist = require('aniwrapper/node');
 class AnilistProvider implements BasicProvider {
@@ -31,14 +31,14 @@ class AnilistProvider implements BasicProvider {
   constructor(accessToken: string = '') {
     this.provider = new Anilist(accessToken);
   }
-  public getUserList(): Promise<listEntry[]> {
+  public getUserList(): Promise<ListEntry[]> {
     return this.provider
       .getUserList()
       .then(({ MediaListCollection }: { MediaListCollection: any }) =>
         get(MediaListCollection, 'lists[0].entries')
       )
       .then((list: any) => {
-        return list.map((entry: anilisEntrysResponse) =>
+        return list.map((entry: AnilisEntrysResponse) =>
           this.outputNormalizeListEntry(entry)
         );
       });
@@ -54,7 +54,7 @@ class AnilistProvider implements BasicProvider {
         return data.map((entry: any) => this.outputNormalizeAnime(entry));
       });
   }
-  public updateAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
+  public updateAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
     const params: Partial<AnilistUpdateEntryPayload> = this.inputNormalizeAnime(
       vars
     );
@@ -75,7 +75,7 @@ class AnilistProvider implements BasicProvider {
   public removeAnime(id: number): Promise<any> {
     return this.provider.removeAnime(id);
   }
-  public addAnime(vars: Partial<inputAnime>): Promise<Partial<listEntry>> {
+  public addAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
     const params = this.inputNormalizeAddAnime(vars);
     return this.provider
       .addAnime(params)
@@ -94,7 +94,7 @@ class AnilistProvider implements BasicProvider {
 
   // helpers
   // ouput normalizers
-  public outputNormalizeListEntry(entry: anilisEntrysResponse): listEntry {
+  public outputNormalizeListEntry(entry: AnilisEntrysResponse): ListEntry {
     const {
       id,
       progress,
@@ -122,8 +122,8 @@ class AnilistProvider implements BasicProvider {
   }
 
   // input normalizers
-  public inputNormalizeAddAnime(input: Partial<inputAnime>): AnilistAddEntryPayload {
-    const { status, progress, anime_id }: Partial<inputAnime> = input;
+  public inputNormalizeAddAnime(input: Partial<InputAnime>): AnilistAddEntryPayload {
+    const { status, progress, anime_id }: Partial<InputAnime> = input;
     return {
       mediaId: anime_id,
       status: AnilistProvider.Status(status),
@@ -131,9 +131,9 @@ class AnilistProvider implements BasicProvider {
     };
   }
   public inputNormalizeAnime(
-    input: Partial<inputAnime>
+    input: Partial<InputAnime>
   ): Partial<AnilistUpdateEntryPayload> {
-    const { id, status, progress, anime_id }: Partial<inputAnime> = input;
+    const { id, status, progress, anime_id }: Partial<InputAnime> = input;
     const newType: Partial<AnilistUpdateEntryPayload> = {
       mediaId: anime_id,
       id,

@@ -1,4 +1,4 @@
-import { listEntry, Anime, inputAnime } from 'lib/util/types';
+import { ListEntry, Anime, InputAnime } from 'lib/util/types';
 import AnilistProvider from './../lib/providers/anilist-provider';
 const dotenv = require('dotenv'); // eslint-disable-line
 dotenv.config();
@@ -17,22 +17,22 @@ describe('Anilist provider', () => {
     provider = new AnilistProvider(TOKEN);
   });
   it('should getUserList: get all current logged in users list ', async () => {
-    const animeList: listEntry[] = await provider.getUserList();
+    const animeList: ListEntry[] = await provider.getUserList();
     expect(animeList.length).toBeGreaterThanOrEqual(1);
   });
   it('should getUserList: get all current logged in users list and update tokyo ghoul to ep 2 ', async () => {
     const updateEp = 2;
     const result = await provider.getUserList();
-    const media: listEntry = result.find(
-      (val: listEntry) => val.anime.id === 100240
+    const media: ListEntry = result.find(
+      (val: ListEntry) => val.anime.id === 100240
     );
     log('This is the element: %O', media);
-    const updateAnimeInput: Partial<inputAnime> = {
+    const updateAnimeInput: Partial<InputAnime> = {
       id: media.id,
       anime_id: media.anime.id,
       progress: updateEp
     };
-    const updatedEntry: Partial<listEntry> = await provider.updateAnime(
+    const updatedEntry: Partial<ListEntry> = await provider.updateAnime(
       updateAnimeInput
     );
     log('This is what the result of update is: %O', updatedEntry);
@@ -44,7 +44,7 @@ describe('Anilist provider', () => {
     log(animes);
   });
   it('should add anime 1535 death note and delete entry', async () => {
-    const addEntry: Partial<inputAnime> = {
+    const addEntry: Partial<InputAnime> = {
       anime_id: 1535,
       status: 'CURRENT',
       progress: 1

@@ -1,11 +1,11 @@
 import { isEmpty, get } from 'lodash';
-import { inputAnime } from 'lib/util/types';
+import { InputAnime } from 'lib/util/types';
 import KitsuProvider from './../lib/providers/kitsu-provider';
 const dotenv = require('dotenv'); // eslint-disable-line
 dotenv.config();
 const opts = {
   clientId: process.env.CLIENT_ID || '',
-  clientSecret: process.env.CLIENT_SECRET || ''
+  clientSecret: process.env.CLIENT_SECRET || '',
 };
 const USERNAME = process.env.EMAIL || '';
 const PASSWORD = process.env.PASSWORD || '';
@@ -40,13 +40,11 @@ describe('kitsu provider', () => {
     let item: any = list.find((entry: any) => entry.anime.id === '13209');
     if (isEmpty(item)) {
       // add anime
-      const blackCloverId: number = 13209;
-      const episode: number = 32;
       const status: string = 'current';
       const { data } = await provider.addAnime({
         anime_id: blackCloverId,
         progress: episode,
-        status
+        status,
       });
       const { attributes } = data;
       expect(attributes.progress).toBe(episode);
@@ -55,7 +53,7 @@ describe('kitsu provider', () => {
       item = list.find((entry: any) => entry.anime.id === '13209');
     }
 
-    const params: Partial<inputAnime> = { id: item.id, progress: episode };
+    const params: Partial<InputAnime> = { id: item.id, progress: episode };
     const { data } = await provider.updateAnime(params);
     expect(data.attributes.progress).toEqual(episode);
   });
@@ -72,7 +70,7 @@ describe('kitsu provider', () => {
       const { data } = await provider.addAnime({
         anime_id: blackCloverId,
         progress: episode,
-        status
+        status,
       });
       const { attributes } = data;
       expect(attributes.progress).toBe(episode);
@@ -102,7 +100,7 @@ describe('kitsu provider', () => {
     const { data } = await provider.addAnime({
       anime_id: get(item, 'anime.id', blackCloverId),
       progress: episode,
-      status
+      status,
     });
     const { attributes } = data;
     expect(attributes.progress).toBe(episode);
