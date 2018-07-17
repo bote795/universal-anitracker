@@ -1,6 +1,6 @@
 {
   "javascript.format.enable": false,
   "formattingToggle.activateFor": ["formatOnPaste", "formatOnSave", "formatOnType"],
-// Set the default
-"editor.formatOnSave": true,
+  // Set the default
+  "editor.formatOnSave": true,
 }

@@ -7,7 +7,7 @@ import {
   AnilistAddEntryPayload,
   AnilistUpdateEntryPayload,
   AnilistMedia,
-  AnilisEntrysResponse
+  AnilisEntrysResponse,
 } from '../util/types';
 const Anilist = require('aniwrapper/node');
 class AnilistProvider implements BasicProvider {
@@ -16,15 +16,15 @@ class AnilistProvider implements BasicProvider {
   public static Status(key: string): string | undefined {
     if (!key) return key;
     switch (key.toLowerCase()) {
-    case 'current':
-    case 'planning':
-    case 'completed':
-    case 'dropped':
-    case 'paused':
-    case 'repeating':
-      return key.toUpperCase();
-    default:
-      throw new Error(`Incorrect Status passed: ${key}`);
+      case 'current':
+      case 'planning':
+      case 'completed':
+      case 'dropped':
+      case 'paused':
+      case 'repeating':
+        return key.toUpperCase();
+      default:
+        throw new Error(`Incorrect Status passed: ${key}`);
     }
   }
 
@@ -67,8 +67,8 @@ class AnilistProvider implements BasicProvider {
           status,
           progress,
           anime: {
-            id: mediaId
-          }
+            id: mediaId,
+          },
         };
       });
   }
@@ -86,8 +86,8 @@ class AnilistProvider implements BasicProvider {
           status,
           progress,
           anime: {
-            id: mediaId
-          }
+            id: mediaId,
+          },
         };
       });
   }
@@ -99,7 +99,7 @@ class AnilistProvider implements BasicProvider {
       id,
       progress,
       mediaId,
-      media
+      media,
     }: {
       id: number;
       progress: number;
@@ -109,7 +109,7 @@ class AnilistProvider implements BasicProvider {
     return {
       id,
       progress,
-      anime: this.outputNormalizeAnime(media)
+      anime: this.outputNormalizeAnime(media),
     };
   }
   public outputNormalizeAnime(anime: AnilistMedia): Anime {
@@ -117,17 +117,19 @@ class AnilistProvider implements BasicProvider {
       id: anime.id,
       TotalEpisodes: anime.episodes,
       image: anime.coverImage,
-      title: anime.title
+      title: anime.title,
     };
   }
 
   // input normalizers
-  public inputNormalizeAddAnime(input: Partial<InputAnime>): AnilistAddEntryPayload {
+  public inputNormalizeAddAnime(
+    input: Partial<InputAnime>
+  ): AnilistAddEntryPayload {
     const { status, progress, anime_id }: Partial<InputAnime> = input;
     return {
       mediaId: anime_id,
       status: AnilistProvider.Status(status),
-      progress
+      progress,
     };
   }
   public inputNormalizeAnime(
@@ -138,7 +140,7 @@ class AnilistProvider implements BasicProvider {
       mediaId: anime_id,
       id,
       status: AnilistProvider.Status(status),
-      progress
+      progress,
     };
     return pickBy(newType, identity);
   }

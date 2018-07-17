@@ -4,8 +4,9 @@ import {
   Anime,
   ListEntry,
   InputAnime,
-  KitsuAddEntryPayload
+  KitsuAddEntryPayload,
 } from '../util/types';
+
 const Kitsu = require('kitsu/node');
 const OAuth2 = require('client-oauth2');
 
@@ -21,14 +22,14 @@ class KitsuProvider implements BasicProvider {
   public static Status(key: string): string | undefined {
     if (!key) return key;
     switch (key.toLowerCase()) {
-    case 'completed':
-    case 'current':
-    case 'dropped':
-    case 'on_hold':
-    case 'planned':
-      return key.toLowerCase();
-    default:
-      throw new Error(`Incorrect Status passed: ${key}`);
+      case 'completed':
+      case 'current':
+      case 'dropped':
+      case 'on_hold':
+      case 'planned':
+        return key.toLowerCase();
+      default:
+        throw new Error(`Incorrect Status passed: ${key}`);
     }
   }
 
@@ -49,7 +50,7 @@ class KitsuProvider implements BasicProvider {
     const { owner } = new OAuth2({
       clientId: this.clientId,
       clientSecret: this.clientSecret,
-      accessTokenUri: KitsuProvider.TokenURL
+      accessTokenUri: KitsuProvider.TokenURL,
     });
     return owner
       .getToken(username, password)
@@ -68,7 +69,7 @@ class KitsuProvider implements BasicProvider {
     const { owner } = new OAuth2({
       clientId: this.clientId,
       clientSecret: this.clientSecret,
-      accessTokenUri: KitsuProvider.TokenURL
+      accessTokenUri: KitsuProvider.TokenURL,
     });
 
     return 'test';
@@ -77,7 +78,7 @@ class KitsuProvider implements BasicProvider {
     return this.provider
       .get('anime', {
         filter: { text: name },
-        fields: { anime: 'id,titles,episodeCount,posterImage' }
+        fields: { anime: 'id,titles,episodeCount,posterImage' },
       })
       .then(({ data }: { data: any }) => {
         return data.map((entry: any) => {
@@ -101,12 +102,12 @@ class KitsuProvider implements BasicProvider {
           filter: { userId: id, kind: 'anime' },
           include: 'anime',
           page: {
-            limit: 50
+            limit: 50,
           },
           fields: {
             libraryEntries: 'id,progress,anime',
-            anime: 'id,titles,episodeCount,posterImage'
-          }
+            anime: 'id,titles,episodeCount,posterImage',
+          },
         })
       )
       .then(({ data }: { data: any }) => {
@@ -136,7 +137,7 @@ class KitsuProvider implements BasicProvider {
     const {
       id,
       anime,
-      progress
+      progress,
     }: { id: number; anime: any; progress: number } = entry;
     const normalizedAnime = this.outputNormalizeAnime(anime);
     return { id, progress, anime: normalizedAnime };
@@ -146,7 +147,7 @@ class KitsuProvider implements BasicProvider {
       id,
       episodeCount,
       titles,
-      posterImage
+      posterImage,
     }: {
       id: number;
       episodeCount: number;
@@ -158,11 +159,11 @@ class KitsuProvider implements BasicProvider {
       TotalEpisodes: episodeCount,
       title: {
         romaji: titles.en_jp,
-        english: titles.en
+        english: titles.en,
       },
       image: {
-        medium: posterImage.tiny
-      }
+        medium: posterImage.tiny,
+      },
     };
   }
   public inputNormalizeAddAnime(
@@ -174,12 +175,12 @@ class KitsuProvider implements BasicProvider {
       progress,
       anime: {
         id: anime_id.toString(),
-        type: 'anime'
+        type: 'anime',
       },
       user: {
         id: this.userId.toString(),
-        type: 'users'
-      }
+        type: 'users',
+      },
     };
   }
   public inputNormalizeAnime(input: Partial<InputAnime>): Partial<InputAnime> {
@@ -188,7 +189,7 @@ class KitsuProvider implements BasicProvider {
       anime_id,
       id,
       status: KitsuProvider.Status(status),
-      progress
+      progress,
     };
     return pickBy(newType, identity);
   }
