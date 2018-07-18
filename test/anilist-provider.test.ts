@@ -1,6 +1,7 @@
 import { ListEntry, Anime, InputAnime } from 'lib/util/types';
 import AnilistProvider from './../lib/providers/anilist-provider';
-
+import universalAnitracker from './../lib/index';
+import KitsuProvider from '../lib/providers/kitsu-provider';
 /* tslint:disable:no-var-requires */
 const dotenv = require('dotenv');
 /* tslint:enable:no-var-requires */
@@ -17,10 +18,10 @@ function log(...theArgs: any[]) {
 }
 // TODO add verification that the types are full of what it needs to be
 describe('Anilist provider', () => {
-  let provider: AnilistProvider;
+  let provider: AnilistProvider | KitsuProvider;
 
   beforeAll(() => {
-    provider = new AnilistProvider(TOKEN);
+    provider = universalAnitracker("anilist", TOKEN);
   });
   it('should getUserList: get all current logged in users list ', async () => {
     const animeList: ListEntry[] = await provider.getUserList();

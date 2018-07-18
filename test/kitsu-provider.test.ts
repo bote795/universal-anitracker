@@ -1,6 +1,8 @@
 import { isEmpty, get } from 'lodash';
 import { InputAnime } from 'lib/util/types';
+import universalAnitracker from './../lib/index';
 import KitsuProvider from './../lib/providers/kitsu-provider';
+import AnilistProvider from '../lib/providers/anilist-provider';
 
 /* tslint:disable:no-var-requires */
 const dotenv = require('dotenv');
@@ -16,10 +18,10 @@ const PASSWORD = process.env.PASSWORD || '';
 const TOKEN = process.env.TOKEN || '';
 
 describe('kitsu provider', () => {
-  let provider: KitsuProvider;
+  let provider: KitsuProvider | AnilistProvider;
 
   beforeAll(() => {
-    provider = new KitsuProvider(TOKEN, opts);
+    provider = universalAnitracker('kitsu', TOKEN, opts);
   });
 
   test('should get a token', async () => {

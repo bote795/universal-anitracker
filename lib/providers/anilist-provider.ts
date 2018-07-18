@@ -35,6 +35,12 @@ class AnilistProvider implements BasicProvider {
   constructor(accessToken: string = '') {
     this.provider = new Anilist(accessToken);
   }
+  // TODO: fix this to some standard
+  public getToken(username: string, password: string): Promise<string> {
+    return Promise.resolve(
+      'https://anilist.co/api/v2/oauth/authorize?client_id=673&response_type=token'
+    );
+  }
   public getUserList(): Promise<ListEntry[]> {
     return this.provider
       .getUserList()
