@@ -29,14 +29,9 @@ describe('kitsu provider', () => {
   let provider: KitsuProvider | AnilistProvider;
 
   beforeAll(async () => {
-    const tempProvider: KitsuProvider | AnilistProvider = universalAnitracker(
-      'kitsu',
-      TOKEN,
-      opts
-    );
-    const token: string = await tempProvider.getToken(USERNAME, PASSWORD);
+    provider = universalAnitracker('kitsu', TOKEN, opts);
+    const token: string = await provider.getToken(USERNAME, PASSWORD);
     expect(token).toBeDefined();
-    provider = universalAnitracker('kitsu', token, opts);
   });
 
   test('should get a token', async () => {
@@ -122,7 +117,7 @@ describe('kitsu provider', () => {
     const { progress, status } = await provider.addAnime({
       anime_id: get(item, 'anime.id', blackCloverId),
       progress: episodeExpected,
-      status: statusExpected
+      status: statusExpected,
     });
     expect(progress).toBe(episodeExpected);
     expect(status).toBe(statusExpected);

@@ -56,6 +56,7 @@ class KitsuProvider implements BasicProvider {
     return owner
       .getToken(username, password)
       .then(({ accessToken }: { accessToken: string }) => {
+        this.provider.headers.Authorization = `Bearer ${accessToken}`;
         return accessToken;
       })
       .catch((err: any) => {
