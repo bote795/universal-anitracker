@@ -81,16 +81,16 @@ describe('kitsu provider', () => {
     if (isEmpty(item)) {
       // add anime
       const blackCloverId: number = 13209;
-      const episode: number = 32;
-      const status: string = 'current';
-      const { data } = await provider.addAnime({
+      const episodeExpected: number = 32;
+      const statusExpected: string = 'current';
+
+      const { progress, status } = await provider.addAnime({
         anime_id: blackCloverId,
-        progress: episode,
-        status,
+        progress: episodeExpected,
+        status: statusExpected,
       });
-      const { attributes } = data;
-      expect(attributes.progress).toBe(episode);
-      expect(attributes.status).toBe(status);
+      expect(progress).toBe(episodeExpected);
+      expect(status).toBe(statusExpected);
 
       list = await provider.getUserList();
       item = list.find((entry: any) => entry.anime.id === '13209');
