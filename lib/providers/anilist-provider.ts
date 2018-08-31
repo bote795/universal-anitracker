@@ -81,7 +81,13 @@ class AnilistProvider implements BasicProvider {
       });
   }
   public removeAnime(id: number): Promise<any> {
-    return this.provider.removeAnime(id);
+    return this.provider
+      .removeAnime(id)
+      .then(({ DeleteMediaListEntry }: { DeleteMediaListEntry: any }) => {
+        if (DeleteMediaListEntry.deleted) {
+          return {};
+        } else Promise.reject();
+      });
   }
   public addAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
     const params = this.inputNormalizeAddAnime(vars);
