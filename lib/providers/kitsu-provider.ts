@@ -126,12 +126,21 @@ class KitsuProvider implements BasicProvider {
   // TODO: normalize responses
   public addAnime(variables: Partial<InputAnime>): Promise<any> {
     const params: KitsuAddEntryPayload = this.inputNormalizeAddAnime(variables);
-    return this.provider.post('libraryEntries', { ...params });
+    return this.provider
+      .post('libraryEntries', { ...params })
+      .then(({ data }: { data: any }) => {
+        return {
+          id: data.id,
+          status: data.attributes.status,
+          progress: data.attributes.progress,
+        };
+      });
   }
   public updateAnime(variables: Partial<InputAnime>): Promise<any> {
     const params: Partial<InputAnime> = this.inputNormalizeAnime(variables);
     return this.provider.patch('libraryEntries', { ...params });
   }
+  // TODO: normalize responses
   public removeAnime(id: number): Promise<any> {
     return this.provider.delete('libraryEntries', id);
   }

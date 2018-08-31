@@ -64,6 +64,7 @@ class AnilistProvider implements BasicProvider {
         return data.map((entry: any) => this.outputNormalizeAnime(entry));
       });
   }
+  
   public updateAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
     const params: Partial<AnilistUpdateEntryPayload> = this.inputNormalizeAnime(
       vars

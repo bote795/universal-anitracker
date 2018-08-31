@@ -16,12 +16,27 @@ const opts = {
 const USERNAME = process.env.EMAIL || '';
 const PASSWORD = process.env.PASSWORD || '';
 const TOKEN = process.env.TOKEN || '';
+const debug: boolean = true;
 
+function log(...theArgs: any[]) {
+  if (debug) {
+    /* tslint:disable:no-console */
+    console.log(theArgs);
+    /* tslint:enable:no-console */
+  }
+}
 describe('kitsu provider', () => {
   let provider: KitsuProvider | AnilistProvider;
 
-  beforeAll(() => {
-    provider = universalAnitracker('kitsu', TOKEN, opts);
+  beforeAll(async () => {
+    const tempProvider: KitsuProvider | AnilistProvider = universalAnitracker(
+      'kitsu',
+      TOKEN,
+      opts
+    );
+    const token: string = await tempProvider.getToken(USERNAME, PASSWORD);
+    expect(token).toBeDefined();
+    provider = universalAnitracker('kitsu', token, opts);
   });
 
   test('should get a token', async () => {
@@ -46,15 +61,14 @@ describe('kitsu provider', () => {
     let item: any = list.find((entry: any) => entry.anime.id === '13209');
     if (isEmpty(item)) {
       // add anime
-      const status: string = 'current';
-      const { data } = await provider.addAnime({
+      const statusExpected: string = 'current';
+      const { progress, status } = await provider.addAnime({
         anime_id: blackCloverId,
         progress: episode,
-        status,
+        status: statusExpected,
       });
-      const { attributes } = data;
-      expect(attributes.progress).toBe(episode);
-      expect(attributes.status).toBe(status);
+      expect(progress).toBe(episode);
+      expect(status).toBe(statusExpected);
       list = await provider.getUserList();
       item = list.find((entry: any) => entry.anime.id === '13209');
     }
@@ -101,15 +115,14 @@ describe('kitsu provider', () => {
     }
     // add anime
     const blackCloverId: number = 13209;
-    const episode: number = 32;
-    const status: string = 'current';
-    const { data } = await provider.addAnime({
+    const episodeExpected: number = 32;
+    const statusExpected: string = 'current';
+    const { progress, status } = await provider.addAnime({
       anime_id: get(item, 'anime.id', blackCloverId),
-      progress: episode,
-      status,
+      progress: episodeExpected,
+      status: statusExpected
     });
-    const { attributes } = data;
-    expect(attributes.progress).toBe(episode);
-    expect(attributes.status).toBe(status);
+    expect(progress).toBe(episodeExpected);
+    expect(status).toBe(statusExpected);
   });
 });

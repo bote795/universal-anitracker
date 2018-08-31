@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 /* tslint:enable:no-var-requires */
 
 dotenv.config();
-const debug: boolean = false;
+const debug: boolean = true;
 const TOKEN = process.env.ANILIST_TOKEN || '';
 function log(...theArgs: any[]) {
   if (debug) {
@@ -21,7 +21,7 @@ describe('Anilist provider', () => {
   let provider: AnilistProvider | KitsuProvider;
 
   beforeAll(() => {
-    provider = universalAnitracker("anilist", TOKEN);
+    provider = universalAnitracker('anilist', TOKEN);
   });
   it('should getUserList: get all current logged in users list ', async () => {
     const animeList: ListEntry[] = await provider.getUserList();
@@ -57,7 +57,7 @@ describe('Anilist provider', () => {
       progress: 1,
     };
     const val: any = await provider.addAnime(addEntry);
-    log(val);
+    log('this is the anilist add response: %O', val);
     const result: any = await provider.removeAnime(val.id);
     log(result);
   });
