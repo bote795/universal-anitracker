@@ -7,7 +7,7 @@ const dotenv = require('dotenv');
 /* tslint:enable:no-var-requires */
 
 dotenv.config();
-const debug: boolean = true;
+const debug: boolean = false;
 const TOKEN = process.env.ANILIST_TOKEN || '';
 function log(...theArgs: any[]) {
   if (debug) {

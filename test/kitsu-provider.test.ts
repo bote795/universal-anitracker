@@ -16,7 +16,7 @@ const opts = {
 const USERNAME = process.env.EMAIL || '';
 const PASSWORD = process.env.PASSWORD || '';
 const TOKEN = process.env.TOKEN || '';
-const debug: boolean = true;
+const debug: boolean = false;
 
 function log(...theArgs: any[]) {
   if (debug) {

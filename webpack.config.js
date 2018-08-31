@@ -17,7 +17,10 @@ module.exports = {
   output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'node'),
+    library: 'universalAnitracker',
+    libraryTarget: 'umd',
+    globalObject: 'this',
+    libraryExport: 'default',
   },
-  target: 'node',
   mode: process.env.NODE_ENV === 'production' ? 'production' : 'development',
 };
