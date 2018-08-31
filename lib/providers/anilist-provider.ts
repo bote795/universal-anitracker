@@ -64,7 +64,7 @@ class AnilistProvider implements BasicProvider {
         return data.map((entry: any) => this.outputNormalizeAnime(entry));
       });
   }
-  
+
   public updateAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
     const params: Partial<AnilistUpdateEntryPayload> = this.inputNormalizeAnime(
       vars
@@ -91,14 +91,11 @@ class AnilistProvider implements BasicProvider {
     return this.provider
       .addAnime(params)
       .then(({ SaveMediaListEntry }: { SaveMediaListEntry: any }) => {
-        const { id, mediaId, status, progress } = SaveMediaListEntry;
+        const { id, status, progress } = SaveMediaListEntry;
         return {
           id,
           status,
-          progress,
-          anime: {
-            id: mediaId,
-          },
+          progress
         };
       });
   }
