@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "webpack --watch",
     "test": "jest",
+    "deploy": "webpack -p",
     "cypress:run": "cypress run",
     "cypress:open": "cypress open",
     "lint": "tslint '{lib,test}/**/*.ts'",
