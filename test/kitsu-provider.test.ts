@@ -75,7 +75,8 @@ describe('kitsu provider', () => {
 
     const params: Partial<InputAnime> = { id: item.id, progress: episode };
     const resp = await provider.updateAnime(params);
-    expect(resp.data.attributes.progress).toEqual(episode);
+    log('This is my resp %O', JSON.stringify(resp));
+    expect(resp.progress).toEqual(episode);
   });
 
   test('should remove user list entry', async () => {
@@ -101,6 +102,7 @@ describe('kitsu provider', () => {
     }
     // delete entry
     const removeAnime = await provider.removeAnime(item.id);
+    log(removeAnime);
     expect(removeAnime).toBeDefined();
   });
 

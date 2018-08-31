@@ -72,14 +72,11 @@ class AnilistProvider implements BasicProvider {
     return this.provider
       .updateAnime(params)
       .then(({ SaveMediaListEntry }: { SaveMediaListEntry: any }) => {
-        const { id, mediaId, status, progress } = SaveMediaListEntry;
+        const { id, status, progress } = SaveMediaListEntry;
         return {
           id,
           status,
           progress,
-          anime: {
-            id: mediaId,
-          },
         };
       });
   }
@@ -95,7 +92,7 @@ class AnilistProvider implements BasicProvider {
         return {
           id,
           status,
-          progress
+          progress,
         };
       });
   }
