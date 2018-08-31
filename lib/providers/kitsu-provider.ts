@@ -123,7 +123,6 @@ class KitsuProvider implements BasicProvider {
         throw err;
       });
   }
-  // TODO: normalize responses
   public addAnime(variables: Partial<InputAnime>): Promise<any> {
     const params: KitsuAddEntryPayload = this.inputNormalizeAddAnime(variables);
     return this.provider
@@ -148,7 +147,6 @@ class KitsuProvider implements BasicProvider {
         };
       });
   }
-  // TODO: normalize responses
   public removeAnime(id: number): Promise<any> {
     return this.provider.delete('libraryEntries', id);
   }
