@@ -8,7 +8,7 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const debug: boolean = false;
-const TOKEN = process.env.ANILIST_TOKEN || '';
+const TOKEN = process.env.cypress_ANILIST_TOKEN || '';
 function log(...theArgs: any[]) {
   if (debug) {
     /* tslint:disable:no-console */

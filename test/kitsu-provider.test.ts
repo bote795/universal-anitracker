@@ -10,12 +10,12 @@ const dotenv = require('dotenv');
 
 dotenv.config();
 const opts = {
-  clientId: process.env.CLIENT_ID || '',
-  clientSecret: process.env.CLIENT_SECRET || '',
+  clientId: process.env.cypress_CLIENT_ID || '',
+  clientSecret: process.env.cypress_CLIENT_SECRET || '',
 };
-const USERNAME = process.env.EMAIL || '';
-const PASSWORD = process.env.PASSWORD || '';
-const TOKEN = process.env.TOKEN || '';
+const USERNAME = process.env.cypress_EMAIL || '';
+const PASSWORD = process.env.cypress_PASSWORD || '';
+const TOKEN = process.env.cypress_TOKEN || '';
 const debug: boolean = false;
 
 function log(...theArgs: any[]) {
