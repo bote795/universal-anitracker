@@ -8,7 +8,6 @@ const opts = {
 const USERNAME = Cypress.env('EMAIL');
 const PASSWORD = Cypress.env('PASSWORD');
 
-console.log(opts);
 const debug = true;
 function log(...theArgs) {
   if (debug) {
