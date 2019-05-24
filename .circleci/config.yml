@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/node:8.11@sha256:af7b81b839b0e11acc422e59ca52e42b3bb400f7246d81267d1217c89bc7ae07
+      - image: circleci/node:chakracore-10.13
     working_directory: ~/repo
 
     steps:
@@ -33,7 +33,7 @@ jobs:
   test:
     docker:
       # specify the version you desire here
-      - image: circleci/node:7.10@sha256:295338f0d5e60150b6eb8d1f43f82007206e0edae0c159e77b383f7598933028
+      - image: circleci/node:chakracore-10.13
     working_directory: ~/repo
 
     steps:
