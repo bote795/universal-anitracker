@@ -3,6 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "node/index.js",
+  "types": "lib/@types/types.d.ts",
   "scripts": {
     "dev": "webpack --watch",
     "test": "jest",

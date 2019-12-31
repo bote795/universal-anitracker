@@ -1,4 +1,4 @@
-import { ListEntry, Anime, InputAnime } from 'lib/util/types';
+import { ListEntry, Anime, InputAnime } from '../lib/@types/types';
 import AnilistProvider from './../lib/providers/anilist-provider';
 import universalAnitracker from './../lib/index';
 import KitsuProvider from '../lib/providers/kitsu-provider';
