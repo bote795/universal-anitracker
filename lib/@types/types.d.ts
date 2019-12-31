@@ -1,6 +1,10 @@
-// EXTERNAL types
-export type AnimeEntry = Partial<ListEntry>;
+import AnilistProvider from "../providers/anilist-provider";
+import KitsuProvider from "../providers/kitsu-provider";
 
+// EXTERNAL types
+export type universalTrackerProvider = AnilistProvider | KitsuProvider;
+
+export type AnimeEntry = Partial<ListEntry>;
 export interface ListEntry {
   id: number;
   progress: number;
