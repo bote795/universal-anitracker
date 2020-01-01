@@ -1,11 +1,11 @@
-import { BasicProvider } from '../util/provider_interface';
+import { BasicProvider } from '../@types/provider_interface';
 import { isEmpty, pickBy, identity } from 'lodash';
 import {
   Anime,
   ListEntry,
-  InputAnime,
   KitsuAddEntryPayload,
-} from '../util/types';
+  ProviderAnime,
+} from '../@types/types';
 /* tslint:disable:no-var-requires */
 const Kitsu = require('kitsu/node');
 const OAuth2 = require('client-oauth2');
@@ -124,7 +124,7 @@ class KitsuProvider implements BasicProvider {
         throw err;
       });
   }
-  public addAnime(variables: Partial<InputAnime>): Promise<any> {
+  public addAnime(variables: ProviderAnime): Promise<any> {
     const params: KitsuAddEntryPayload = this.inputNormalizeAddAnime(variables);
     return this.provider
       .post('libraryEntries', { ...params })
@@ -136,8 +136,8 @@ class KitsuProvider implements BasicProvider {
         };
       });
   }
-  public updateAnime(variables: Partial<InputAnime>): Promise<any> {
-    const params: Partial<InputAnime> = this.inputNormalizeAnime(variables);
+  public updateAnime(variables: ProviderAnime): Promise<any> {
+    const params: ProviderAnime = this.inputNormalizeAnime(variables);
     return this.provider
       .patch('libraryEntries', { ...params })
       .then(({ data }: { data: any }) => {
@@ -186,10 +186,8 @@ class KitsuProvider implements BasicProvider {
       },
     };
   }
-  public inputNormalizeAddAnime(
-    input: Partial<InputAnime>
-  ): KitsuAddEntryPayload {
-    const { status, progress, anime_id }: Partial<InputAnime> = input;
+  public inputNormalizeAddAnime(input: ProviderAnime): KitsuAddEntryPayload {
+    const { status, progress, anime_id }: ProviderAnime = input;
     return {
       status: KitsuProvider.Status(status),
       progress,
@@ -203,9 +201,9 @@ class KitsuProvider implements BasicProvider {
       },
     };
   }
-  public inputNormalizeAnime(input: Partial<InputAnime>): Partial<InputAnime> {
-    const { id, status, progress, anime_id }: Partial<InputAnime> = input;
-    const newType: Partial<InputAnime> = {
+  public inputNormalizeAnime(input: ProviderAnime): ProviderAnime {
+    const { id, status, progress, anime_id }: ProviderAnime = input;
+    const newType: ProviderAnime = {
       anime_id,
       id,
       status: KitsuProvider.Status(status),

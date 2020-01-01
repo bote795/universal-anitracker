@@ -1,14 +1,15 @@
-import { BasicProvider } from '../util/provider_interface';
+import { BasicProvider } from '../@types/provider_interface';
 import { isEmpty, get, pickBy, identity } from 'lodash';
 import {
   Anime,
   ListEntry,
-  InputAnime,
   AnilistAddEntryPayload,
   AnilistUpdateEntryPayload,
   AnilistMedia,
   AnilisEntrysResponse,
-} from '../util/types';
+  ProviderAnime,
+  AnimeEntry,
+} from '../@types/types';
 
 /* tslint:disable:no-var-requires */
 const Anilist = require('aniwrapper/node');
@@ -65,7 +66,7 @@ class AnilistProvider implements BasicProvider {
       });
   }
 
-  public updateAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
+  public updateAnime(vars: ProviderAnime): Promise<AnimeEntry> {
     const params: Partial<AnilistUpdateEntryPayload> = this.inputNormalizeAnime(
       vars
     );
@@ -89,7 +90,7 @@ class AnilistProvider implements BasicProvider {
         } else Promise.reject();
       });
   }
-  public addAnime(vars: Partial<InputAnime>): Promise<Partial<ListEntry>> {
+  public addAnime(vars: ProviderAnime): Promise<AnimeEntry> {
     const params = this.inputNormalizeAddAnime(vars);
     return this.provider
       .addAnime(params)
@@ -133,10 +134,8 @@ class AnilistProvider implements BasicProvider {
   }
 
   // input normalizers
-  public inputNormalizeAddAnime(
-    input: Partial<InputAnime>
-  ): AnilistAddEntryPayload {
-    const { status, progress, anime_id }: Partial<InputAnime> = input;
+  public inputNormalizeAddAnime(input: ProviderAnime): AnilistAddEntryPayload {
+    const { status, progress, anime_id }: ProviderAnime = input;
     return {
       mediaId: anime_id,
       status: AnilistProvider.Status(status),
@@ -144,9 +143,9 @@ class AnilistProvider implements BasicProvider {
     };
   }
   public inputNormalizeAnime(
-    input: Partial<InputAnime>
+    input: ProviderAnime
   ): Partial<AnilistUpdateEntryPayload> {
-    const { id, status, progress, anime_id }: Partial<InputAnime> = input;
+    const { id, status, progress, anime_id }: ProviderAnime = input;
     const newType: Partial<AnilistUpdateEntryPayload> = {
       mediaId: anime_id,
       id,

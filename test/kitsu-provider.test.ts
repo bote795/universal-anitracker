@@ -1,5 +1,5 @@
 import { isEmpty, get } from 'lodash';
-import { InputAnime } from 'lib/util/types';
+import { InputAnime } from '../lib/@types/types';
 import universalAnitracker from './../lib/index';
 import KitsuProvider from './../lib/providers/kitsu-provider';
 import AnilistProvider from '../lib/providers/anilist-provider';

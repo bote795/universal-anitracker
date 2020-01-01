@@ -1,3 +1,10 @@
+import AnilistProvider from '../providers/anilist-provider';
+import KitsuProvider from '../providers/kitsu-provider';
+
+// EXTERNAL types
+export type universalTrackerProvider = AnilistProvider | KitsuProvider;
+
+export type AnimeEntry = Partial<ListEntry>;
 export interface ListEntry {
   id: number;
   progress: number;
@@ -19,6 +26,8 @@ export interface Title {
   english: string;
 }
 
+export type ProviderAnime = Partial<InputAnime>;
+
 export interface InputAnime {
   id: number | undefined;
   status: string | undefined;
@@ -26,6 +35,7 @@ export interface InputAnime {
   anime_id: number | undefined;
 }
 
+// INTERNAL types
 export interface KitsuAddEntryPayload {
   status: string | undefined;
   progress: number | undefined;
