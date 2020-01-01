@@ -1,5 +1,5 @@
-import AnilistProvider from "../providers/anilist-provider";
-import KitsuProvider from "../providers/kitsu-provider";
+import AnilistProvider from '../providers/anilist-provider';
+import KitsuProvider from '../providers/kitsu-provider';
 
 // EXTERNAL types
 export type universalTrackerProvider = AnilistProvider | KitsuProvider;
